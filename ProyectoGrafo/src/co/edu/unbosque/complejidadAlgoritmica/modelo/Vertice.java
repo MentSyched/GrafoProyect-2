@@ -6,97 +6,94 @@ import java.util.List;
 import co.edu.unbosque.complejidadAlgoritmica.interfaces.IArco;
 import co.edu.unbosque.complejidadAlgoritmica.interfaces.IVertice;
 
-public class Vertice <V,K> implements IVertice <V,K> {
-	
-	private V id;
-	private K valor;
+public class Vertice <K,V> implements IVertice <K,V> {
+
+	private K id;
+	private V valor;
 	private boolean marca;
-	private List<IArco<V, K>> listaArcos;
+	private List<IArco<K, V>> listaArcos;
 	
-	public Vertice(V pId,K pValor)
+	public Vertice(K pId,V pValor)
 	{
 		id = pId;
 		valor = pValor;
 		marca = false;
 		listaArcos = new ArrayList<>();
 	}
-	
-	
-	public V darId() {
+	public K darId() {
 		return id;
 	}
 
-	
-	public K darValor() {
+	public V darValor() {
 		return valor;
 	}
 
-
-	public boolean darMarca() {	
+	public boolean darMarca() {
 		return marca;
 	}
-	
-	public List<IArco<V, K>> darSucesores() {
+
+
+	public List<IArco<K, V>> darSucesores() {
 		return listaArcos;
 	}
 
 
 	public void marcar() {
-		marca = true;
-		
+		marca = true;		
 	}
 
-	
+
 	public void desmarcar() {
 		marca = false;
 		
 	}
 
-	public IArco<V, K> darSucesor(V idDestino) {
-		IArco<V,K> rta = null;
+
+	public IArco<K, V> darSucesor(K idDestino) {
+		IArco<K,V> rta = null;
 		for (int i = 0; i < listaArcos.size() && rta == null; i++) {
-			IArco <V,K> actual = listaArcos.get(i);
-			if(actual.darDestino() == idDestino)
+			IVertice <K,V> actual = listaArcos.get(i).darDestino();
+			if(actual.darId() == idDestino)
 			{
-				rta = actual;
+				rta = listaArcos.get(i);
 			}
 		}
 		return rta;
 	}
 
-	@Override
-	public void darRecorridoEnProfundidad(List<IVertice<V, K>> vertices) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void darRecorridoPorAnchura(List<IVertice<V, K>> vertices) {
+	public void darRecorridoEnProfundidad(List<IVertice<K, V>> vertices) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
-	public boolean agregarSucesor(IArco<V, K> sucesor) {
-		boolean agregado = false;
-		IVertice<V,K> actual = sucesor.darDestino();
-		IArco<V,K> rta = darSucesor(actual.darId());
-		if(rta == null)
-		{
-			listaArcos.add(sucesor);
-			agregado = true;
+	public void darRecorridoPorAnchura(List<IVertice<K, V>> vertices) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public boolean agregarSucesor(IArco<K, V> sucesor) {
+			boolean agregado = false;
+			IVertice<K,V> actual = sucesor.darDestino();
+			IArco<K,V> rta = darSucesor(actual.darId());
+			if(rta == null)
+			{
+				listaArcos.add(sucesor);
+				agregado = true;
+			}
+			return agregado;
 		}
-		return agregado;
-	}
 
-	@Override
-	public IArco<V, K> removerSucesor(V idSucesor) {
-		IArco<V, K> eliminado = darSucesor(idSucesor);
+	
+	public IArco<K, V> removerSucesor(K idSucesor) {
+		IArco<K, V> eliminado = darSucesor(idSucesor);
 		if(eliminado  != null)
 		{
 			boolean hecho = false;
 			for (int i = 0; i < listaArcos.size() && hecho == false; i++) {
-				IVertice <V,K> actual = listaArcos.get(i).darOrigen();
+				IVertice <K,V> actual = listaArcos.get(i).darDestino();
 				if(actual.darId() == idSucesor)
 				{
 					listaArcos.remove(i);
@@ -106,10 +103,4 @@ public class Vertice <V,K> implements IVertice <V,K> {
 		}
 		return eliminado;
 	}
-
-	
-
-	
-	
-
 }
