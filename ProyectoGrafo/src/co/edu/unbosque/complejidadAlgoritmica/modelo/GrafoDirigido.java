@@ -10,11 +10,11 @@ import co.edu.unbosque.complejidadAlgoritmica.interfaces.IVertice;
 public class GrafoDirigido<K,V> implements IGrafoDirigido<K,V> {
 
 	private int numVertices;
-	private List<IVertice<K,V>> listaAdy;
+	private List<IVertice<K,V>> listaVertice;
 	
 	public GrafoDirigido(){
 		numVertices = 0;
-		listaAdy = new ArrayList<IVertice<K,V>>();
+		listaVertice = new ArrayList<IVertice<K,V>>();
 	}
 	
 	
@@ -25,8 +25,8 @@ public class GrafoDirigido<K,V> implements IGrafoDirigido<K,V> {
 
 	public IVertice<K,V> darVertice(K idVertice) {
 		IVertice<K,V> rta = null;
-		for (int i = 0; i < listaAdy.size() && rta == null; i++) {
-			IVertice<K,V> actual = listaAdy.get(i);
+		for (int i = 0; i < listaVertice.size() && rta == null; i++) {
+			IVertice<K,V> actual = listaVertice.get(i);
 			if(actual.darValor() == idVertice)
 			{
 				rta = actual;
@@ -35,44 +35,74 @@ public class GrafoDirigido<K,V> implements IGrafoDirigido<K,V> {
 		return rta;
 	}
 
-	@Override
+	
 	public IArco<K, V> darArco(K idOrigen, K idDestino) {
-		// TODO Auto-generated method stub
-		return null;
+		IVertice<K,V> darVertice = darVertice(idOrigen);	
+		IArco<K,V> rta = null;
+		if(darVertice != null)
+		{
+			rta = darVertice.darSucesor(idDestino);
+		}
+		return rta;
 	}
 
-	@Override
 	public boolean agregarVertice(K idVertice, V infoVertice) {
 		boolean registrado = false;
-		
-		return false;
+		IVertice<K,V> buscado = darVertice(idVertice);
+		if(buscado != null)
+		{
+			IVertice<K,V> verNue  = new Vertice<K,V>(idVertice,infoVertice);
+			listaVertice.add(verNue);
+			registrado = true;
+		}
+		return registrado;
 	}
 
-	@Override
+	
 	public IVertice<K, V> eliminarVertice(K idVertice) {
-		// TODO Auto-generated method stub
-		return null;
+		IVertice<K,V> eliminado = null;
+		for (int i = 0; i < listaVertice.size() && eliminado == null; i++) {
+			IVertice<K,V> actual = listaVertice.get(i);
+			if(actual.darId() == idVertice)
+			{
+				eliminado = actual;
+				listaVertice.remove(i);
+			}
+		}
+		return eliminado;
 	}
 
-	@Override
+	
 	public boolean agregarArco(K idOrigen, K idDestino, double costoArco) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean agregado = false;
+		IVertice<K,V> verticeOrigenB = darVertice(idOrigen);
+		IVertice<K,V> verticeDestinoB = darVertice(idDestino);
+		
+		if(verticeOrigenB != null && verticeDestinoB != null)
+		{
+			IArco<K,V> nuevoArco = new Arco<K,V>(verticeOrigenB, verticeDestinoB, costoArco);
+			verticeOrigenB.agregarSucesor(nuevoArco);
+			agregado = true;
+		}
+		return agregado;
 	}
 
-	@Override
+	
 	public IArco<K, V> eliminarArco(K idOrigen, K idDestino) {
-		// TODO Auto-generated method stub
-		return null;
+		IVertice<K,V> eliminado = darVertice(idOrigen);	
+		IArco<K,V> rta = null;
+		if(eliminado != null)
+		{
+			rta = eliminado.removerSucesor(idDestino);
+		}
+		return rta;
 	}
 
-	@Override
 	public List<IVertice<K, V>> darRecorridoEnProfundidad(K idOrigen) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public List<IVertice<K, V>> darRecorridoPorAnchura(K idOrigen) {
 		// TODO Auto-generated method stub
 		return null;

@@ -5,11 +5,11 @@ import co.edu.unbosque.complejidadAlgoritmica.interfaces.IVertice;
 
 public class Arco<K,V> implements IArco<K,V>{
 
-	private Vertice<K,V> origen;
-	private Vertice<K,V> destino;
+	private IVertice<K,V> origen;
+	private IVertice<K,V> destino;
 	private double peso;
 	
-	public Arco(Vertice<K,V> pOrigen, Vertice<K,V> pDestino,double pPeso)
+	public Arco(IVertice<K,V> pOrigen, IVertice<K,V> pDestino,double pPeso)
 	{
 		origen = pOrigen;
 		destino = pDestino;

@@ -88,19 +88,16 @@ public class Vertice <K,V> implements IVertice <K,V> {
 
 	
 	public IArco<K, V> removerSucesor(K idSucesor) {
-		IArco<K, V> eliminado = darSucesor(idSucesor);
-		if(eliminado  != null)
-		{
-			boolean hecho = false;
-			for (int i = 0; i < listaArcos.size() && hecho == false; i++) {
+		IArco<K, V> eliminado = null;
+			for (int i = 0; i < listaArcos.size() && eliminado == null; i++) {
 				IVertice <K,V> actual = listaArcos.get(i).darDestino();
 				if(actual.darId() == idSucesor)
 				{
+					eliminado = listaArcos.get(i);
 					listaArcos.remove(i);
-					hecho = true;
 				}
 			}
-		}
+		
 		return eliminado;
 	}
 }
